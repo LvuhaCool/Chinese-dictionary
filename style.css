@@ -85,6 +85,9 @@ main {
 .input-block input + input, .input-block input + button, .input-block button + button, .input-block-element input + input, .input-block-element input + button, .input-block-element button + button {
     margin-left: 15px;
 }
+.input-block .translation, .input-block-element .translation {
+    width: 500px;
+}
 .list-container {
     border: 1px solid #000;
     padding-left: 35px;
