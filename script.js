@@ -44,6 +44,7 @@ function addValueToListFun() {
     else {
         listContainer.insertAdjacentHTML("beforeend", HTMLCode);
         hideInputBlockFun();
+        HideModalWindowFun();
     };
 }
 // Показ модального окна
