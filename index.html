@@ -13,12 +13,16 @@
             <span class="search-announce announce">Здесь будет поиск иероглифов</span>
         </div>
     </header>
-    <main>
+    <main class="main">
+        <div class="modal-window__container">
+            <span class="modal-window__content"></span>
+            <button class="modal-window__submit-btn">Ок</button>
+        </div>
         <button class="add">Добавить слово</button>
         <div class="input-block">
-            <input type="text" placeholder="Введите иероглиф(ы)" class="hyierogliph">
-            <input type="text" placeholder="Введите пиньинь" class="pinyin">
-            <input type="text" placeholder="Введите перевод" class="translation">
+            <input type="text" placeholder="Введите иероглиф(ы)" class="hyierogliph" value="">
+            <input type="text" placeholder="Введите пиньинь" class="pinyin" value="">
+            <input type="text" placeholder="Введите перевод" class="translation" value="">
             <button class="add-confirmed">Добавить</button>
             <button class="remove">Убрать</button>
         </div>

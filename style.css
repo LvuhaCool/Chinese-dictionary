@@ -79,6 +79,9 @@ main {
     border-radius: 4px;
     text-align: center;
 }
+.input-block-element input {
+    background-color: transparent !important;
+}
 .input-block input + input, .input-block input + button, .input-block button + button, .input-block-element input + input, .input-block-element input + button, .input-block-element button + button {
     margin-left: 15px;
 }
@@ -89,4 +92,30 @@ main {
     height: fit-content;
     display: flex;
     flex-direction: column;
+}
+.modal-window__container {
+    width: 300px;
+    height: 0;
+    border: 0.5px solid #888;
+    border-radius: 6px;
+    display: flex;
+    justify-self: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 15px;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.15s linear, opacity 0.15s linear, height 0.15s linear;
+}
+.modal-window__container.modal-window__container_visible {
+    height: 150px;
+    visibility: visible;
+    opacity: 1;
+}
+.modal-window__content {
+    font-size: 20px;
+}
+.modal-window__submit-btn {
+    margin-top: 25px;
 }
