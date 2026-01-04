@@ -37,16 +37,14 @@ function addValueToListFun() {
             <input type="text" placeholder="Введите перевод" class="translation" value="${translationValue}" disabled>
             <button class="edit">Изменить</button>
         </div>`;
-    inputsArray.forEach(element => {
-        if (element.value == "") {
-            // Вызов функции кастомного модального окна
-            ShowModalWindowFun("Заполни все поля пж");
-        }
-        else {
-            listContainer.insertAdjacentHTML("beforeend", HTMLCode);
-            hideInputBlockFun();
-        }
-    });
+    if (inputsArray[0].value == "" || inputsArray[1].value == "" || inputsArray[2].value == "") {
+        // Вызов функции кастомного модального окна
+        ShowModalWindowFun("Заполни все поля пж");
+    }
+    else {
+        listContainer.insertAdjacentHTML("beforeend", HTMLCode);
+        hideInputBlockFun();
+    };
 }
 // Показ модального окна
 function ShowModalWindowFun(content) {
