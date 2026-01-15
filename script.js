@@ -20,9 +20,9 @@ function showAllFirst() {
     dataShowFirstArr = JSON.parse(storedData);
     dataShowFirstArr.forEach(element => {
         listContainer.insertAdjacentHTML("beforeend", `<div class="input-block-element">
-            <input type="text" placeholder="Введите иероглиф(ы)" class="hyierogliph" value="${element.chinese}" disabled>
-            <input type="text" placeholder="Введите пиньинь" class="pinyin" value="${element.pinyin}" disabled>
-            <input type="text" placeholder="Введите перевод" class="translation" value="${element.russian}" disabled>
+            <input type="text" placeholder="Введите иероглиф(ы)" class="hyierogliph" value="${element.chinese}">
+            <input type="text" placeholder="Введите пиньинь" class="pinyin" value="${element.pinyin}">
+            <input type="text" placeholder="Введите перевод" class="translation" value="${element.russian}">
             <button class="edit">Изменить</button>
         </div>`);
     })
@@ -63,10 +63,10 @@ function addValueToListFun() {
     let pinyinValue = pinyin.value;
     let translationValue = translation.value;
     let HTMLCode = `<div class="input-block-element">
-            <input type="text" placeholder="Введите иероглиф(ы)" class="hyierogliph" value="${hyierogliphValue}" disabled>
-            <input type="text" placeholder="Введите пиньинь" class="pinyin" value="${pinyinValue}" disabled>
-            <input type="text" placeholder="Введите перевод" class="translation" value="${translationValue}" disabled>
-            <button class="edit">Изменить</button>
+            <input type="text" placeholder="Введите иероглиф(ы)" class="hyierogliph" value="${hyierogliphValue}" disabled data-id="${data.length}">
+            <input type="text" placeholder="Введите пиньинь" class="pinyin" value="${pinyinValue}" disabled data-id="${data.length}">
+            <input type="text" placeholder="Введите перевод" class="translation" value="${translationValue}" disabled data-id="${data.length}">
+            <button class="edit" data-id="${data.length}">Изменить</button>
         </div>`;
     if (inputsArray[0].value == "" || inputsArray[1].value == "" || inputsArray[2].value == "") {
         // Вызов функции кастомного модального окна
@@ -83,7 +83,6 @@ function addValueToListFun() {
             russian: translationValue,
         });
         localStorage.setItem("objects", JSON.stringify(data));
-        console.log(localStorage);
     };
 }
 // Показ модального окна
@@ -96,3 +95,8 @@ modalWindowSubmitBtn.addEventListener("click", hideModalWindowFun)
 function hideModalWindowFun() {
     modalWindow.classList.remove("modal-window__container_visible");
 };
+// Изменение контента
+listContainer.addEventListener("click", (event) => {
+    const pressedBtn = event.target.closest(".edit");
+    console.log(pressedBtn.getAttribute("data-id"));
+});
