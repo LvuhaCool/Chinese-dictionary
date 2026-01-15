@@ -8,10 +8,28 @@ const pinyin = document.querySelector(".pinyin");
 const translation = document.querySelector(".translation");
 const inputsArray = [hyierogliph, pinyin, translation];
 const btnTrigger = document.querySelector(".add");
+const btnClearAll = document.querySelector(".clear-list");
 const inputBlock = document.querySelector(".input-block");
 const addConfirmedBtn = document.querySelector(".add-confirmed");
 const removeTemplateBtn = document.querySelector(".remove");
 const listContainer = document.querySelector(".list-container");
+// Показ даты при загрузке страницы
+document.addEventListener("DOMContentLoaded", showAllFirst);
+function showAllFirst() {
+    let storedData = localStorage.getItem("objects");
+    dataShowFirstArr = JSON.parse(storedData);
+    dataShowFirstArr.forEach(element => {
+        listContainer.insertAdjacentHTML("beforeend", `<div class="input-block-element">
+            <input type="text" placeholder="Введите иероглиф(ы)" class="hyierogliph" value="${element.chinese}" disabled>
+            <input type="text" placeholder="Введите пиньинь" class="pinyin" value="${element.pinyin}" disabled>
+            <input type="text" placeholder="Введите перевод" class="translation" value="${element.russian}" disabled>
+            <button class="edit">Изменить</button>
+        </div>`);
+    })
+}
+// Вся дата
+let data = [];
+// Очистить лист с задачами
 // Показать макет заполнения
 btnTrigger.addEventListener("click", showInputBlockFun);
 function showInputBlockFun() {
@@ -20,10 +38,18 @@ function showInputBlockFun() {
     });
     inputBlock.classList.add("input-block-visible");
 };
+btnClearAll.addEventListener("click", clearAll);
+function clearAll() {
+    if (confirm("Это уберет все элементы. Точно хочешь все удалить?")) {
+        localStorage.clear();
+        window.location.reload();
+    }
+}
 // Скрыть макет заполнения
 removeTemplateBtn.addEventListener("click", hideInputBlockFun);
 function hideInputBlockFun() {
     inputBlock.classList.remove("input-block-visible");
+    hideModalWindowFun();
 };
 // Добавить слово в список
 addConfirmedBtn.addEventListener("click", addValueToListFun);
@@ -44,7 +70,15 @@ function addValueToListFun() {
     else {
         listContainer.insertAdjacentHTML("beforeend", HTMLCode);
         hideInputBlockFun();
-        HideModalWindowFun();
+        hideModalWindowFun();
+        data.push({
+            id: data.length,
+            chinese: hyierogliphValue,
+            pinyin: pinyinValue,
+            russian: translationValue,
+        });
+        localStorage.setItem("objects", JSON.stringify(data));
+        console.log(localStorage);
     };
 }
 // Показ модального окна
@@ -53,7 +87,7 @@ function ShowModalWindowFun(content) {
     modalWindowContentContainer.textContent = content;
 }
 // Функция, прячущая модальное окно
-modalWindowSubmitBtn.addEventListener("click", HideModalWindowFun)
-function HideModalWindowFun() {
+modalWindowSubmitBtn.addEventListener("click", hideModalWindowFun)
+function hideModalWindowFun() {
     modalWindow.classList.remove("modal-window__container_visible");
 }

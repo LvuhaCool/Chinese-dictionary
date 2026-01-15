@@ -42,6 +42,10 @@ header {
 main {
     margin-top: 55px;
 }
+.main-btns-container {
+    display: flex;
+    gap: 45px;
+}
 .add {
     margin-left: 55px;
 }
@@ -81,6 +85,7 @@ main {
 }
 .input-block-element input {
     background-color: transparent !important;
+    color: #000;
 }
 .input-block input + input, .input-block input + button, .input-block button + button, .input-block-element input + input, .input-block-element input + button, .input-block-element button + button {
     margin-left: 15px;
