@@ -40,11 +40,16 @@ function showInputBlockFun() {
 };
 btnClearAll.addEventListener("click", clearAll);
 function clearAll() {
-    if (confirm("Это уберет все элементы. Точно хочешь все удалить?")) {
+    if (localStorage.length > 0) {
+        if (confirm("Это уберет все элементы. Точно хочешь все удалить?")) {
         localStorage.clear();
         window.location.reload();
+        };
     }
-}
+    else {
+        alert("Чел, у тебя ничего нет, тут нечего удалять!");
+    };
+};
 // Скрыть макет заполнения
 removeTemplateBtn.addEventListener("click", hideInputBlockFun);
 function hideInputBlockFun() {
@@ -90,4 +95,4 @@ function ShowModalWindowFun(content) {
 modalWindowSubmitBtn.addEventListener("click", hideModalWindowFun)
 function hideModalWindowFun() {
     modalWindow.classList.remove("modal-window__container_visible");
-}
+};
