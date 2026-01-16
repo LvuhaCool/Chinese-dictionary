@@ -39,6 +39,19 @@ header {
     font-size: 30px;
     margin-bottom: 20px;
 }
+.search {
+    display: flex;
+    flex-shrink: 0;
+}
+#search-input {
+    width: 300px;
+    font-size: 18px;
+    outline: none;
+    box-shadow: none;
+    border: 0.5px solid #888;
+    border-radius: 4px;
+    padding-left: 11px;
+}
 main {
     margin-top: 55px;
 }
@@ -85,7 +98,6 @@ main {
 }
 .input-block-element input {
     background-color: transparent !important;
-    color: #000;
 }
 .input-block input + input, .input-block input + button, .input-block button + button, .input-block-element input + input, .input-block-element input + button, .input-block-element button + button {
     margin-left: 15px;

@@ -1,5 +1,7 @@
 // Переменные
-const mainTag = document.querySelector("main.main")
+const searchInput = document.querySelector(".search-input");
+const searchBtn = document.querySelector(".search-btn");
+const mainTag = document.querySelector("main.main");
 const modalWindow = document.querySelector(".modal-window__container");
 const modalWindowSubmitBtn = document.querySelector(".modal-window__submit-btn");
 const modalWindowContentContainer = document.querySelector(".modal-window__content");
@@ -16,9 +18,7 @@ const listContainer = document.querySelector(".list-container");
 // Показ даты при загрузке страницы
 document.addEventListener("DOMContentLoaded", showAllFirst);
 function showAllFirst() {
-    let storedData = localStorage.getItem("objects");
-    dataShowFirstArr = JSON.parse(storedData);
-    dataShowFirstArr.forEach(element => {
+    data.forEach(element => {
         listContainer.insertAdjacentHTML("beforeend", `<div class="input-block-element">
             <input type="text" placeholder="Введите иероглиф(ы)" class="hyierogliph" value="${element.chinese}">
             <input type="text" placeholder="Введите пиньинь" class="pinyin" value="${element.pinyin}">
@@ -28,7 +28,7 @@ function showAllFirst() {
     })
 }
 // Вся дата
-let data = [];
+let data = JSON.parse(localStorage.getItem("objects")) || [];
 // Очистить лист с задачами
 // Показать макет заполнения
 btnTrigger.addEventListener("click", showInputBlockFun);
@@ -62,10 +62,10 @@ function addValueToListFun() {
     let hyierogliphValue = hyierogliph.value;
     let pinyinValue = pinyin.value;
     let translationValue = translation.value;
-    let HTMLCode = `<div class="input-block-element">
-            <input type="text" placeholder="Введите иероглиф(ы)" class="hyierogliph" value="${hyierogliphValue}" disabled data-id="${data.length}">
-            <input type="text" placeholder="Введите пиньинь" class="pinyin" value="${pinyinValue}" disabled data-id="${data.length}">
-            <input type="text" placeholder="Введите перевод" class="translation" value="${translationValue}" disabled data-id="${data.length}">
+    let HTMLCode = `<div class="input-block-element" data-id="${data.length}">
+            <input type="text" placeholder="Введите иероглиф(ы)" class="hyierogliph" value="${hyierogliphValue}" disabled>
+            <input type="text" placeholder="Введите пиньинь" class="pinyin" value="${pinyinValue}" disabled>
+            <input type="text" placeholder="Введите перевод" class="translation" value="${translationValue}" disabled>
             <button class="edit" data-id="${data.length}">Изменить</button>
         </div>`;
     if (inputsArray[0].value == "" || inputsArray[1].value == "" || inputsArray[2].value == "") {
@@ -96,7 +96,12 @@ function hideModalWindowFun() {
     modalWindow.classList.remove("modal-window__container_visible");
 };
 // Изменение контента
-listContainer.addEventListener("click", (event) => {
+listContainer.addEventListener("click", changeFunction);
+function changeFunction(event) {
     const pressedBtn = event.target.closest(".edit");
-    console.log(pressedBtn.getAttribute("data-id"));
-});
+    const pressedBtnContainer = pressedBtn.parentElement;
+    const pressedBtnContainerInputs = Array.from(pressedBtnContainer.querySelectorAll("input"));
+    pressedBtnContainerInputs.forEach(element => {
+        element.toggleAttribute("disabled");
+    })
+};
