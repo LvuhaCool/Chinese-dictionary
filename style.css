@@ -45,6 +45,7 @@ header {
 }
 #search-input {
     width: 300px;
+    height: 35px;
     font-size: 18px;
     outline: none;
     box-shadow: none;

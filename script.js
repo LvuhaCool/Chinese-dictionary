@@ -1,6 +1,5 @@
 // Переменные
-const searchInput = document.querySelector(".search-input");
-const searchBtn = document.querySelector(".search-btn");
+const searchInput = document.querySelector("#search-input");
 const mainTag = document.querySelector("main.main");
 const modalWindow = document.querySelector(".modal-window__container");
 const modalWindowSubmitBtn = document.querySelector(".modal-window__submit-btn");
@@ -104,4 +103,20 @@ function changeFunction(event) {
     pressedBtnContainerInputs.forEach(element => {
         element.toggleAttribute("disabled");
     })
+};
+// Поиск
+// Поиск
+searchInput.oninput = () => {
+    const searchTerm = searchInput.value.toLowerCase();
+    const elements = listContainer.querySelectorAll(".input-block-element");
+    elements.forEach(element => {
+        const inputs = element.querySelectorAll("input");
+        let found = false;
+        inputs.forEach(input => {
+            if (input.value.toLowerCase().includes(searchTerm)) {
+                found = true;
+            }
+        });
+        element.style.display = found ? "flex" : "none";
+    });
 };
