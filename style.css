@@ -65,6 +65,8 @@ main {
 }
 .input-block-element {
     margin-top: 25px;
+    border: none;
+    transition: border 0.3s ease-in;
 }
 .input-block, .input-block-element {
     display: flex;
@@ -75,6 +77,9 @@ main {
     width: fit-content;
     padding: 25px 55px;
     border-radius: 6px;
+}
+.input-block-element.red-border {
+    border: 3px solid #f00;
 }
 .input-block {
     max-height: 0;
@@ -104,12 +109,14 @@ main {
     width: 0;
     visibility: hidden;
     opacity: 0;
-    transition: width 0.3s linear, opacity 0.3s linear, visibility 0.3s linear;
+    font-size: 0;
+    transition: width 0.3s linear, opacity 0.3s linear, visibility 0.3s linear, font-size 0.3s linear;
 }
 .save-changes.visible {
     width: 175px;
     opacity: 1;
     visibility: visible;
+    font-size: 15px;
 }
 .input-block input + input, .input-block input + button, .input-block button + button, .input-block-element input + input, .input-block-element input + button, .input-block-element button + button {
     margin-left: 15px;

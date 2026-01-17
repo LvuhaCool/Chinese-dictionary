@@ -17,6 +17,7 @@ const listContainer = document.querySelector(".list-container");
 // Показ даты при загрузке страницы
 document.addEventListener("DOMContentLoaded", showAllFirst);
 function showAllFirst() {
+    listContainer.innerHTML = "";
     data.forEach(element => {
         listContainer.insertAdjacentHTML("beforeend", `<div class="input-block-element" data-id="${element.id}">
             <input type="text" placeholder="Введите иероглиф(ы)" class="hyierogliph" value="${element.chinese}" disabled>
@@ -24,6 +25,7 @@ function showAllFirst() {
             <input type="text" placeholder="Введите перевод" class="translation" value="${element.russian}" disabled>
             <button class="edit" data-id="${element.id}">Изменить</button>
             <button class="save-changes">Сохранить изменения</button>
+            <button class="delete-element" data-id="${element.id}">Удалить</button>
         </div>`);
     })
 }
@@ -40,10 +42,10 @@ function showInputBlockFun() {
 };
 btnClearAll.addEventListener("click", clearAll);
 function clearAll() {
-    if (localStorage.length > 0) {
+    if (data.length > 0) {
         if (confirm("Это уберет все элементы. Точно хочешь все удалить?")) {
-        localStorage.clear();
-        window.location.reload();
+            localStorage.clear();
+            window.location.reload();
         };
     }
     else {
@@ -68,6 +70,7 @@ function addValueToListFun() {
             <input type="text" placeholder="Введите перевод" class="translation" value="${translationValue}" disabled>
             <button class="edit" data-id="${data.length}">Изменить</button>
             <button class="save-changes">Сохранить изменения</button>
+            <button class="delete-element" data-id="${data.length}">Удалить</button>
         </div>`;
     if (inputsArray[0].value == "" || inputsArray[1].value == "" || inputsArray[2].value == "") {
         // Вызов функции кастомного модального окна
@@ -98,8 +101,11 @@ function hideModalWindowFun() {
 };
 // Изменение контента
 listContainer.addEventListener("click", changeFunction);
+// Слушатель событий для вызова функции удаления элемента
+listContainer.addEventListener("click", deleteFunction);
 function changeFunction(event) {
     const pressedBtn = event.target.closest(".edit");
+    if (!pressedBtn) return;
     const pressedBtnContainer = pressedBtn.parentElement;
     const pressedBtnContainerInputs = Array.from(pressedBtnContainer.querySelectorAll("input"));
     pressedBtnContainerInputs.forEach(element => {
@@ -107,14 +113,19 @@ function changeFunction(event) {
             element.disabled = false;
         }
     })
+    pressedBtnContainer.classList.add("red-border");
     const saveChangesBtn = pressedBtnContainer.querySelector(".save-changes");
     saveChangesBtn.classList.add("visible");
     saveChangesBtn.addEventListener("click", (e) => {
         e.preventDefault();
         pressedBtnContainerInputs.forEach((element) => {
             element.disabled = true;
+            if (element.value == "") {
+                element.value = "Ты здесь не заполнил."
+            };
         })
         saveChangesBtn.classList.remove("visible");
+        pressedBtnContainer.classList.remove("red-border");
         const dataId = parseInt(pressedBtnContainer.getAttribute("data-id"));
         const index = data.findIndex(item => item.id === dataId);
         if (index !== -1) {
@@ -128,6 +139,24 @@ function changeFunction(event) {
         }
     });
 };
+function deleteFunction(event) {
+    const deleteBtn = event.target.closest(".delete-element");
+    if(!deleteBtn) return;
+    const elementId = parseInt(deleteBtn.getAttribute("data-id"));
+    const elementToDelete = deleteBtn.closest(".input-block-element");
+    if (confirm("Ты хочешь удалить это слово навсегда?")) {
+        elementToDelete.remove();
+        const index = data.findIndex(item => item.id === elementId);
+        if(index !== -1) {
+            data.splice(index, 1);
+            data.forEach((item, idx) => {
+                item.id = idx;
+            })
+            localStorage.setItem("objects", JSON.stringify(data));
+            showAllFirst();
+        }
+    }
+}
 // Поиск
 searchInput.oninput = () => {
     const searchTerm = searchInput.value.toLowerCase();
