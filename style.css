@@ -100,6 +100,17 @@ main {
 .input-block-element input {
     background-color: transparent !important;
 }
+.save-changes {
+    width: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: width 0.3s linear, opacity 0.3s linear, visibility 0.3s linear;
+}
+.save-changes.visible {
+    width: 175px;
+    opacity: 1;
+    visibility: visible;
+}
 .input-block input + input, .input-block input + button, .input-block button + button, .input-block-element input + input, .input-block-element input + button, .input-block-element button + button {
     margin-left: 15px;
 }
@@ -107,7 +118,6 @@ main {
     width: 500px;
 }
 .list-container {
-    border: 1px solid #000;
     padding-left: 35px;
     width: calc(100% - 37px);
     height: fit-content;

@@ -18,11 +18,12 @@ const listContainer = document.querySelector(".list-container");
 document.addEventListener("DOMContentLoaded", showAllFirst);
 function showAllFirst() {
     data.forEach(element => {
-        listContainer.insertAdjacentHTML("beforeend", `<div class="input-block-element">
-            <input type="text" placeholder="Введите иероглиф(ы)" class="hyierogliph" value="${element.chinese}">
-            <input type="text" placeholder="Введите пиньинь" class="pinyin" value="${element.pinyin}">
-            <input type="text" placeholder="Введите перевод" class="translation" value="${element.russian}">
-            <button class="edit">Изменить</button>
+        listContainer.insertAdjacentHTML("beforeend", `<div class="input-block-element" data-id="${element.id}">
+            <input type="text" placeholder="Введите иероглиф(ы)" class="hyierogliph" value="${element.chinese}" disabled>
+            <input type="text" placeholder="Введите пиньинь" class="pinyin" value="${element.pinyin}" disabled>
+            <input type="text" placeholder="Введите перевод" class="translation" value="${element.russian}" disabled>
+            <button class="edit" data-id="${element.id}">Изменить</button>
+            <button class="save-changes">Сохранить изменения</button>
         </div>`);
     })
 }
@@ -66,6 +67,7 @@ function addValueToListFun() {
             <input type="text" placeholder="Введите пиньинь" class="pinyin" value="${pinyinValue}" disabled>
             <input type="text" placeholder="Введите перевод" class="translation" value="${translationValue}" disabled>
             <button class="edit" data-id="${data.length}">Изменить</button>
+            <button class="save-changes">Сохранить изменения</button>
         </div>`;
     if (inputsArray[0].value == "" || inputsArray[1].value == "" || inputsArray[2].value == "") {
         // Вызов функции кастомного модального окна
@@ -101,10 +103,31 @@ function changeFunction(event) {
     const pressedBtnContainer = pressedBtn.parentElement;
     const pressedBtnContainerInputs = Array.from(pressedBtnContainer.querySelectorAll("input"));
     pressedBtnContainerInputs.forEach(element => {
-        element.toggleAttribute("disabled");
+        if (element.hasAttribute("disabled")) {
+            element.disabled = false;
+        }
     })
+    const saveChangesBtn = pressedBtnContainer.querySelector(".save-changes");
+    saveChangesBtn.classList.add("visible");
+    saveChangesBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        pressedBtnContainerInputs.forEach((element) => {
+            element.disabled = true;
+        })
+        saveChangesBtn.classList.remove("visible");
+        const dataId = parseInt(pressedBtnContainer.getAttribute("data-id"));
+        const index = data.findIndex(item => item.id === dataId);
+        if (index !== -1) {
+            data[index] = {
+                id: dataId,
+                chinese: pressedBtnContainer.querySelector(".hyierogliph").value,
+                pinyin: pressedBtnContainer.querySelector(".pinyin").value,
+                russian: pressedBtnContainer.querySelector(".translation").value,
+            };
+        localStorage.setItem("objects", JSON.stringify(data));
+        }
+    });
 };
-// Поиск
 // Поиск
 searchInput.oninput = () => {
     const searchTerm = searchInput.value.toLowerCase();
