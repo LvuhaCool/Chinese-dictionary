@@ -118,7 +118,12 @@ main {
     visibility: visible;
     font-size: 15px;
 }
-.input-block input + input, .input-block input + button, .input-block button + button, .input-block-element input + input, .input-block-element input + button, .input-block-element button + button {
+.input-block input + input,
+.input-block input + button,
+.input-block button + button,
+.input-block-element input + input,
+.input-block-element input + button,
+.input-block-element button + button {
     margin-left: 15px;
 }
 .input-block .translation, .input-block-element .translation {
@@ -156,4 +161,8 @@ main {
 }
 .modal-window__submit-btn {
     margin-top: 25px;
+}
+
+@media (max-width: 411px) {
+    
 }
