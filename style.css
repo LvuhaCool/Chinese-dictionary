@@ -4,6 +4,11 @@
     font-family: 'Times New Roman', Times, serif;
     letter-spacing: 0.6px;
 }
+
+body {
+    overflow: hidden;
+}
+
 .announce {
     font-size: 20px;
     color: #f00;
